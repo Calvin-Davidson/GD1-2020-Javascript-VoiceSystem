@@ -1,3 +1,8 @@
+const TextArray = document.getElementById("TextArray");
+
+
+let InputArray = ["dit is een text, ", " dit is nog een text!"];
+
 let inputForm = document.querySelector('form');
 let inputTxt = document.querySelector('.txt');
 let voiceSelect = document.querySelector('select');
@@ -10,42 +15,55 @@ let play2 = document.querySelector('#play2');
 let pause = document.querySelector('#pause');
 let resume = document.querySelector('#resume');
 
-
 let synth = window.speechSynthesis; // init speech synthesizer
 let voices = []; // array vande voices beschikbaar in de browser
 
 
-inputForm.onsubmit = function(event) {
+inputForm.onsubmit = function (event) {
     event.preventDefault();
     sayTheWord(inputTxt.value);
 }
-play.addEventListener('click', () => {sayTheWord(inputTxt.value);});
-pause.addEventListener('click', () => {synth.pause();});
-resume.addEventListener('click', () => {synth.resume();});
 
+play.addEventListener('click', () => {
+    sayTheWord(inputTxt.value);
+});
+pause.addEventListener('click', () => {
+    synth.pause();
+});
+resume.addEventListener('click', () => {
+    synth.resume();
+});
+
+play2.addEventListener('click', () => {
+    let toSay = "";
+    for (let i = 0; i < InputArray.length; i++) toSay += InputArray[i];
+    console.log(toSay)
+    sayTheWord(toSay);
+});
 
 function populateVoiceList() {
     voices = synth.getVoices();
-    for(i = 0; i < voices.length ; i++) {
+    for (i = 0; i < voices.length; i++) {
         let option = document.createElement('option');
         option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
         option.setAttribute('data-lang', voices[i].lang);
         option.setAttribute('data-name', voices[i].name);
         voiceSelect.appendChild(option);
     }
-    }
+}
+
 populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
     speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
-function sayTheWord(theseWords){
+function sayTheWord(theseWords) {
     synth.cancel(); // reset de speech synthesizer
     let magicWords = new SpeechSynthesisUtterance(theseWords);
     let selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
-    for(i = 0; i < voices.length ; i++) {
-        if(voices[i].name === selectedOption) {
-        magicWords.voice = voices[i];
+    for (i = 0; i < voices.length; i++) {
+        if (voices[i].name === selectedOption) {
+            magicWords.voice = voices[i];
         }
     }
 
@@ -53,10 +71,36 @@ function sayTheWord(theseWords){
     magicWords.rate = rate.value;
     synth.speak(magicWords);
 }
-pitch.onchange = function() {
-        pitchValue.textContent = pitch.value;
-        }
 
-rate.onchange = function() {
+pitch.onchange = function () {
+    pitchValue.textContent = pitch.value;
+}
+
+rate.onchange = function () {
     rateValue.textContent = rate.value;
+}
+
+
+document.addEventListener('click', updateText);
+
+function updateText() {
+    TextArray.innerHTML = "";
+    for (let i = 0; i < InputArray.length; i++) {
+        let Message = document.createElement('li');
+        Message.classList.add("ToSayArrayText")
+        Message.innerHTML = InputArray[i];
+
+        Message.addEventListener("click", function () {
+            for (let i = 0; i < InputArray.length; i++) if (InputArray[i]===Message.innerHTML) {
+                InputArray = InputArray.filter(el => el !== Message.innerHTML);
+                console.log("YES");
+                updateText();
+            } else {
+                console.log("NOPE")
+            }
+        });
+        TextArray.appendChild(Message);
     }
+}
+
+updateText();

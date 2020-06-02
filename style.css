@@ -8,3 +8,13 @@ form{
     background-color: black;
     padding: 30px;
   }
+
+.ToSayArrayText {
+    background-color: green;
+    color: purple;
+    font-size: 200%;
+}
+
+.ToSayArrayText:hover {
+    background-color: lightgreen;
+}

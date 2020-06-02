@@ -1,3 +1,10 @@
-# GD1-2020-Text-to-speech
-## Text to speech synthesizer API
-Link naar de demo: [http://schw.hosts1.ma-cloud.nl/2020/text2speech/](http://schw.hosts1.ma-cloud.nl/2020/text2speech/)
+# GD1-2020-Javascript voice system
+
+Link naar de demo: ([http://29150.hosts2.ma-cloud.nl/JavaScriptVoiceSystem/index.html])
+
+
+#Includes
+- Voice to Text ( enlish only )
+- Text to Voice ( multi language )
+- pause system
+- contineu system
