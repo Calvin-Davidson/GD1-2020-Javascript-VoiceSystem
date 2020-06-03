@@ -5,6 +5,7 @@ let InputArray = ["dit is een text, ", " dit is nog een text!"];
 
 let inputForm = document.querySelector('form');
 let inputTxt = document.querySelector('.txt');
+let addToArray = document.getElementById('addToArray');
 let voiceSelect = document.querySelector('select');
 let pitch = document.querySelector('#pitch');
 let pitchValue = document.querySelector('.pitch-value');
@@ -34,11 +35,17 @@ resume.addEventListener('click', () => {
     synth.resume();
 });
 
+
 play2.addEventListener('click', () => {
     let toSay = "";
     for (let i = 0; i < InputArray.length; i++) toSay += InputArray[i];
     console.log(toSay)
     sayTheWord(toSay);
+});
+
+addToArray.addEventListener('click', function () {
+    InputArray.push(inputTxt.value);
+    inputTxt.value = "";
 });
 
 function populateVoiceList() {
